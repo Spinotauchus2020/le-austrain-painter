@@ -1,38 +1,42 @@
-canvas = document.getElementById("myCanvas");
-color = "blue";
-width = 2;
-ctx = canvas.getContext("2d");
-mouse_event = " ";
-var lastX,lastY,current_X,current_Y;
-var width2 = screen.width;
-var new_height = screen.height -300;
-var new_width = screen.width -70;
-if(width2<992){
-    canvas.width=new_width;
-    canvas.height=new_height;
-}
+var mouseEvent = "empty";
+var last_position_of_x, last_position_of_y;
 
-canvas.addEventListener("touchstart", my_touchstart);
+    canvas = document.getElementById('myCanvas');
+    ctx = canvas.getContext("2d");
+    
+    color = "black";
+    width_of_line = 2;
+
+    canvas.addEventListener("touchstart", my_touchstart);
 function my_touchstart(e){
     console.log("touchstart");
-    lastX=e.touches[0].clientX - canvas.offsetLeft;
-    lastY=e.touches[0].clientY - canvas.offsetTop;
+    last_position_of_x=e.touches[0].clientX - canvas.offsetLeft;
+    last_position_of_y=e.touches[0].clientY - canvas.offsetTop;
 }
 
+    canvas.addEventListener("touchmove", my_touchmove);
+    function my_touchmove(e)
+    {
 
+         current_position_of_mouse_x = e.touches[0].clientX - canvas.offsetLeft;
+         current_position_of_mouse_y = e.touches[0].clientY - canvas.offsetTop;
 
-canvas.addEventListener("touchmove", my_touchmove);
-function my_touchmove(e){
-    current_X = e.touches[0].clientX - canvas.offsetLeft;
-    current_Y = e.touches[0].clientY - canvas.offsetTop;
+        
         ctx.beginPath();
         ctx.strokeStyle = color;
-        ctx.lineWidth = width;
+        ctx.lineWidth = width_of_line;
 
-        ctx.moveTo(lastX,lastY);
+        console.log("Last position of x and y coordinates = ");
+        console.log("x = " + last_position_of_x + "y = " + last_position_of_y);
+        ctx.moveTo(last_position_of_x, last_position_of_y);
 
-        ctx.lineTo(current_X,current_Y);
-    
-    lastX = current_X;
-    lastY = current_Y;
-}
+        console.log("Current position of x and y coordinates = ");
+        console.log("x  = " + current_position_of_mouse_x + "y = " + current_position_of_mouse_y);
+        ctx.lineTo(current_position_of_mouse_x, current_position_of_mouse_y);
+        ctx.stroke();
+        
+
+        last_position_of_x = current_position_of_mouse_x; 
+        last_position_of_y = current_position_of_mouse_y;
+    }
+
